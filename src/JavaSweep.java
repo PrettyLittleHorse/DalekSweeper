@@ -3,6 +3,7 @@ import java.awt.*;
 import Sweeper.Box;
 //импортируем созданный нами бокс
 import Sweeper.Coord;
+import Sweeper.Game;
 import Sweeper.Ranges;
 
 
@@ -12,10 +13,11 @@ public class JavaSweep extends JFrame
         // JFrame создает окно, тут добавляется расширение, ниже вызывается
 
 {
-
+    private Game game;
     private JPanel panel;
     private final int COLS = 9;
-    private final int ROWS = 9;
+    private final int BOMBS = 9;
+    private final int ROWS = 10;
     private final int IMAGE_SIZE = 50;
 
 
@@ -31,7 +33,9 @@ public class JavaSweep extends JFrame
 
     private JavaSweep ()
     {
-        Ranges.setSize (new Coord (COLS, ROWS));
+        game = new Game(COLS, ROWS, BOMBS);
+        //Ranges.setSize (new Coord (COLS, ROWS));
+        game.start();
         setImages();
         initPanel();
         initFrame();
@@ -50,8 +54,8 @@ public class JavaSweep extends JFrame
                 for (Coord coord : Ranges.getAllCoords())
                 {
                     //Coord coord = new Coord(box.ordinal() * IMAGE_SIZE, 0);
-                    g.drawImage((Image) Box.values() [(coord.x + coord.y) % Box.values().length] .image,
-                            coord.x * IMAGE_SIZE, coord.y * IMAGE_SIZE, this);
+                    g.drawImage((Image) game.getBox(coord).image, coord.x * IMAGE_SIZE, coord.y * IMAGE_SIZE, this);
+                    //Box.values() [(coord.x + coord.y) % Box.values().length]
                 }
             }
         };
@@ -62,13 +66,13 @@ public class JavaSweep extends JFrame
     }
     private void initFrame ()
     {
-        pack ();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle ("JavaSweeper");
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
         setIconImage(getImage("icon"));
+        pack ();
     }
 
     private void setImages()
