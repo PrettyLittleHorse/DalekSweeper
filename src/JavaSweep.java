@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 import Sweeper.Box;
+//импортируем созданный нами бокс
 import Sweeper.Coord;
 import Sweeper.Ranges;
-//импортируем созданный бокс
+
 
 public class JavaSweep extends JFrame
     //[pablic, private, protected] - модификаторы доступа, управляет видимостью метода и любой переменной
