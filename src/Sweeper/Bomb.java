@@ -8,13 +8,14 @@ package Sweeper;
     Bomb (int totalBombs)
     {
         this.totalBombs = totalBombs;
+        fixBombsCount();
     }
 
     void start ()
     {
         bombMap = new Matrix (Box.ZERO);
         for (int j = 0; j < totalBombs; j ++)
-        placeBomb ();
+            placeBomb ();
     }
 
 
@@ -24,13 +25,32 @@ package Sweeper;
         return bombMap.get(coord);
     }
 
-    private void placeBomb ()
+    private void fixBombsCount ()
     {
-        Coord coord = Ranges.getRandomCoord();
-        bombMap.set (coord, Box.BOMB);
-        for (Coord around : Ranges.getCoordsAround(coord))
-            bombMap.set(around, Box.NUM1);
+        int maxBombs = Ranges.getSize().x * Ranges.getSize().y / 2;
+        if (totalBombs > maxBombs)
+            totalBombs = maxBombs;
     }
 
+    private void placeBomb ()
+    {
+        while (true)
+        {
+            Coord coord = Ranges.getRandomCoord();
+            if (Box.BOMB == bombMap.get(coord))
+                continue;
+            bombMap.set (coord, Box.BOMB);
+            incNumbersRoundBomb(coord);
+            break;
+        }
+
+    }
+private void incNumbersRoundBomb (Coord coord)
+{
+    for (Coord around : Ranges.getCoordsAround(coord))
+        if (Box.BOMB != bombMap.get (around))
+            //условие что цифра ставится там, где нет бомбы
+        bombMap.set(around, bombMap.get(around).getNextNumberBox());
+}
 
 }
