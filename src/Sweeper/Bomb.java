@@ -53,4 +53,9 @@ private void incNumbersRoundBomb (Coord coord)
         bombMap.set(around, bombMap.get(around).getNextNumberBox());
 }
 
+    int getTotalBombs()
+    {
+        return totalBombs;
+    }
+
 }

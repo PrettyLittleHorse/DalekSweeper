@@ -100,7 +100,7 @@ public class JavaSweep extends JFrame
         {
             case PLAYED: return "Thitk twice!";
             case BOMBED: return "You lose BABAX!!";
-            case WINNER:return  "CONGRATULATIUNS";
+            case WINNER:return  "CONGRATULATIONS";
             default: return "Welcome";
         }
     }
