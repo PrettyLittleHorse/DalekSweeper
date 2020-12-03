@@ -73,6 +73,10 @@ public class JavaSweep extends JFrame
                 Coord coord = new Coord(x,y);
                 if (e.getButton() == MouseEvent.BUTTON1)
                     game.pressLeftButton (coord);
+                if (e.getButton() == MouseEvent.BUTTON3)
+                    game.pressRightButton (coord);
+                if (e.getButton() == MouseEvent.BUTTON2)
+                    game.start ();
                 panel.repaint();
             }
         });
