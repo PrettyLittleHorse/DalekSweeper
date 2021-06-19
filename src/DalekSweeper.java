@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -35,6 +34,7 @@ public class DalekSweeper extends JFrame {
         JLabel fieldHeight = new JLabel("Select field height: ");
         JLabel numberOfDaleks = new JLabel("Select the number of daleks: ");
         JLabel standardLabel = new JLabel("Standard 10,10,11");
+        standardLabel.setForeground(Color.RED);
 
         JButton button = new JButton("Start");
         button.addActionListener(e -> {
@@ -42,6 +42,7 @@ public class DalekSweeper extends JFrame {
                 COLS = Integer.parseInt(fieldWidthInput.getText());
                 ROWS = Integer.parseInt(fieldHeightInput.getText());
                 DALEKS = Integer.parseInt(numberOfDaleksInput.getText());
+                panel.removeAll();
                 game = new Game(COLS, ROWS, DALEKS);
                 game.start();
                 setImages();
@@ -112,10 +113,13 @@ public class DalekSweeper extends JFrame {
     private String getMessage() {
         switch (game.getState()) {
             case PLAYED:
+                label.setForeground(Color.BLACK);
                 return "There are so many Daleks here.. " + DALEKS + " daleks remaining";
             case EXTERMINATED:
+                label.setForeground(Color.RED);
                 return "EXTERMINATE!! \n You were exterminated. ";
             case WINNER:
+                label.setForeground(Color.BLUE);
                 return "You escaped from all " + DALEKS + " daleks";
             default:
                 return "";
