@@ -12,13 +12,11 @@ class Matrix {
     Box get(Coord coord) {
         if (Ranges.inRange(coord))
             return matrix[coord.x][coord.y];
-        return null;
-        //inRange в классе Ranges
+        else return null;
     }
 
     void set(Coord coord, Box box) {
         if (Ranges.inRange(coord))
             matrix[coord.x][coord.y] = box;
-        if (Ranges.inRange(coord)) ;
     }
 }

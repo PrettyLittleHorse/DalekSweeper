@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -12,26 +13,64 @@ public class DalekSweeper extends JFrame {
     private Game game;
     private JPanel panel;
     private JLabel label;
-    private final int COLS = 19;
-    private final int BOMBS = 20;
-    private final int ROWS = 10;
+    private int COLS;
+    private int DALEKS;
+    private int ROWS;
     private final int IMAGE_SIZE = 95;
 
     public static void main(String[] args) {
         new DalekSweeper();
     }
 
-    private DalekSweeper() {
-        game = new Game(COLS, ROWS, BOMBS);
-        game.start();
+    public DalekSweeper() {
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setBounds(800, 400, 240, 165);
+
+        JPanel panel = new JPanel(new FlowLayout());
+        JTextField fieldWidthInput = new JTextField(3);
+        JTextField fieldHeightInput = new JTextField(3);
+        JTextField numberOfDaleksInput = new JTextField(3);
+
+        JLabel fieldWidth = new JLabel("Select field width: ");
+        JLabel fieldHeight = new JLabel("Select field height: ");
+        JLabel numberOfDaleks = new JLabel("Select the number of daleks: ");
+        JLabel standardLabel = new JLabel("Standard 10,10,11");
+
+        JButton button = new JButton("Start");
+        button.addActionListener(e -> {
+            try {
+                COLS = Integer.parseInt(fieldWidthInput.getText());
+                ROWS = Integer.parseInt(fieldHeightInput.getText());
+                DALEKS = Integer.parseInt(numberOfDaleksInput.getText());
+                game = new Game(COLS, ROWS, DALEKS);
+                game.start();
+                setImages();
+                initLabel();
+                initPanel();
+                initFrame();
+
+            } catch (NumberFormatException e1) {
+                JOptionPane.showMessageDialog(panel, "Incorrect data!");
+            }
+        });
+
+        panel.add(fieldWidth);
+        panel.add(fieldWidthInput);
+        panel.add(fieldHeight);
+        panel.add(fieldHeightInput);
+        panel.add(numberOfDaleks);
+        panel.add(numberOfDaleksInput);
+        panel.add(button);
+        panel.add(standardLabel);
+        add(panel);
+        setIconImage(getImage("icon"));
         setImages();
-        initLabel();
-        initPanel();
-        initFrame();
+        setVisible(true);
+
     }
 
     private void initLabel() {
-        label = new JLabel("Welcome!");
+        label = new JLabel("There are so many Daleks here... ");
         add(label, BorderLayout.SOUTH);
     }
 
@@ -46,6 +85,7 @@ public class DalekSweeper extends JFrame {
                 }
             }
         };
+
         panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -62,20 +102,21 @@ public class DalekSweeper extends JFrame {
                 panel.repaint();
             }
         });
+
         panel.setPreferredSize(new Dimension(
-                Ranges.getSize().x * IMAGE_SIZE+1,
-                Ranges.getSize().y * IMAGE_SIZE+1));
+                Ranges.getSize().x * IMAGE_SIZE + 1,
+                Ranges.getSize().y * IMAGE_SIZE + 1));
         add(panel);
     }
 
     private String getMessage() {
         switch (game.getState()) {
             case PLAYED:
-                return "There are so many Daleks here..";
-            case BOMBED:
+                return "There are so many Daleks here.. " + DALEKS + " daleks remaining";
+            case EXTERMINATED:
                 return "EXTERMINATE!! \n You were exterminated. ";
             case WINNER:
-                return "You escaped from all the Daleks";
+                return "You escaped from all " + DALEKS + " daleks";
             default:
                 return "";
         }

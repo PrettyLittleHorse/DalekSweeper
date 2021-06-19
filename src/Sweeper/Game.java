@@ -1,7 +1,7 @@
 package Sweeper;
 
 public class Game {
-    private Bomb bomb;
+    private Dalek dalek;
     private Flag flag;
     private GameState state;
 
@@ -11,12 +11,12 @@ public class Game {
 
     public Game(int cols, int rows, int bombs) {
         Ranges.setSize(new Coord(cols, rows));
-        bomb = new Bomb(bombs);
+        dalek = new Dalek(bombs);
         flag = new Flag();
     }
 
     public void start() {
-        bomb.start();
+        dalek.start();
         flag.start();
         state = GameState.PLAYED;
     }
@@ -24,7 +24,7 @@ public class Game {
 
     public Box getBox(Coord coord) {
         if (flag.get(coord) == Box.OPENED)
-            return bomb.get(coord);
+            return dalek.get(coord);
         return flag.get(coord);
     }
 
@@ -36,7 +36,7 @@ public class Game {
 
     private void checkWinner() {
         if (state == GameState.PLAYED)
-            if (flag.getCountOfClosedBoxes() == bomb.getTotalBombs())
+            if (flag.getCountOfClosedBoxes() == dalek.getTotalDaleks())
                 state = GameState.WINNER;
     }
 
@@ -48,7 +48,7 @@ public class Game {
             case FLAGED:
                 return;
             case CLOSED:
-                switch (bomb.get(coord)) {
+                switch (dalek.get(coord)) {
                     case ZERO:
                         openBoxesAround(coord);
                         return;
@@ -57,24 +57,23 @@ public class Game {
                         return;
                     default:
                         flag.setOpenedToBox(coord);
-                        return;
                 }
         }
     }
 
     void setOpenedToClosedBoxesAroundNumber(Coord coord) {
-        if (bomb.get(coord) != Box.BOMB)
-            if (flag.getCountOfFlagedBoxesAround(coord) == bomb.get(coord).getNumber())
+        if (dalek.get(coord) != Box.BOMB)
+            if (flag.getCountOfFlagedBoxesAround(coord) == dalek.get(coord).getNumber())
                 for (Coord around : Ranges.getCoordsAround(coord))
                     if (flag.get(around) == Box.CLOSED)
                         openBox(around);
     }
 
     private void openBombs(Coord bombed) {
-        state = GameState.BOMBED;
+        state = GameState.EXTERMINATED;
         flag.setBombedToBox(bombed);
         for (Coord coord : Ranges.getAllCoords())
-            if (bomb.get(coord) == Box.BOMB)
+            if (dalek.get(coord) == Box.BOMB)
                 flag.setOpenedToClosedBombBox(coord);
             else
                 flag.setNoBombToFlagedSafeBox(coord);

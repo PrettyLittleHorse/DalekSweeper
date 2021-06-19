@@ -2,6 +2,6 @@ package Sweeper;
 
 public enum GameState {
     PLAYED,
-    BOMBED,
+    EXTERMINATED,
     WINNER
 }
