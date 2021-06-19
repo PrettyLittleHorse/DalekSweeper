@@ -1,7 +1,6 @@
 package Sweeper;
 
-public enum Box
-{
+public enum Box {
     ZERO,
     NUM1,
     NUM2,
@@ -19,12 +18,12 @@ public enum Box
     NOBOMB;
 
     public Object image;
-    Box getNextNumberBox ()
-    {
-        return Box.values() [this.ordinal() + 1];
+
+    Box getNextNumberBox() {
+        return Box.values()[this.ordinal() + 1];
     }
-    int getNumber()
-    {
+
+    int getNumber() {
         return this.ordinal();
     }
 

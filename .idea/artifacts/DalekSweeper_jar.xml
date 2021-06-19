@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="DalekSweeper:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DalekSweeper_jar</output-path>
+    <root id="root">
+      <element id="archive" name="DalekSweeper.jar">
+        <element id="module-output" name="DalekSweeper" />
+      </element>
+    </root>
+  </artifact>
+</component>
