@@ -28,9 +28,9 @@ class Dalek {
     private void placeBomb() {
         while (true) {
             Coord coord = Ranges.getRandomCoord();
-            if (Box.BOMB == dalekMap.get(coord))
+            if (Box.DALEK == dalekMap.get(coord))
                 continue;
-            dalekMap.set(coord, Box.BOMB);
+            dalekMap.set(coord, Box.DALEK);
             incNumbersRoundDalek(coord);
             break;
         }
@@ -38,7 +38,7 @@ class Dalek {
 
     private void incNumbersRoundDalek(Coord coord) {
         for (Coord around : Ranges.getCoordsAround(coord))
-            if (Box.BOMB != dalekMap.get(around))
+            if (Box.DALEK != dalekMap.get(around))
                 dalekMap.set(around, dalekMap.get(around).getNextNumberBox());
     }
 

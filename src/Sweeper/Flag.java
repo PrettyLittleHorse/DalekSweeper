@@ -42,7 +42,7 @@ public class Flag {
     }
 
     public void setBombedToBox(Coord coord) {
-        flagMap.set(coord, Box.BOMBED);
+        flagMap.set(coord, Box.EXTERMINATED);
     }
 
     void setOpenedToClosedBombBox(Coord coord) {
@@ -52,7 +52,7 @@ public class Flag {
 
     void setNoBombToFlagedSafeBox(Coord coord) {
         if (flagMap.get(coord) == Box.FLAGED)
-            flagMap.set(coord, Box.NOBOMB);
+            flagMap.set(coord, Box.NODALEK);
     }
 
 

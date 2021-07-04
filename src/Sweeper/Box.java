@@ -10,12 +10,12 @@ public enum Box {
     NUM6,
     NUM7,
     NUM8,
-    BOMB,
+    DALEK,
     OPENED,
     CLOSED,
     FLAGED,
-    BOMBED,
-    NOBOMB;
+    EXTERMINATED,
+    NODALEK;
 
     public Object image;
 

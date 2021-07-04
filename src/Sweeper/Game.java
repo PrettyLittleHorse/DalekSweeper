@@ -52,7 +52,7 @@ public class Game {
                     case ZERO:
                         openBoxesAround(coord);
                         return;
-                    case BOMB:
+                    case DALEK:
                         openBombs(coord);
                         return;
                     default:
@@ -62,18 +62,18 @@ public class Game {
     }
 
     void setOpenedToClosedBoxesAroundNumber(Coord coord) {
-        if (dalek.get(coord) != Box.BOMB)
+        if (dalek.get(coord) != Box.DALEK)
             if (flag.getCountOfFlagedBoxesAround(coord) == dalek.get(coord).getNumber())
                 for (Coord around : Ranges.getCoordsAround(coord))
                     if (flag.get(around) == Box.CLOSED)
                         openBox(around);
     }
 
-    private void openBombs(Coord bombed) {
+    private void openBombs(Coord exterminated) {
         state = GameState.EXTERMINATED;
-        flag.setBombedToBox(bombed);
+        flag.setBombedToBox(exterminated);
         for (Coord coord : Ranges.getAllCoords())
-            if (dalek.get(coord) == Box.BOMB)
+            if (dalek.get(coord) == Box.DALEK)
                 flag.setOpenedToClosedBombBox(coord);
             else
                 flag.setNoBombToFlagedSafeBox(coord);
