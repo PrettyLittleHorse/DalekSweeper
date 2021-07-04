@@ -1,13 +1,13 @@
+import Sweeper.Box;
+import Sweeper.Coord;
+import Sweeper.Game;
+import Sweeper.Ranges;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
-
-import Sweeper.Box;
-import Sweeper.Coord;
-import Sweeper.Game;
-import Sweeper.Ranges;
 
 public class DalekSweeper extends JFrame {
     private Game game;
@@ -23,6 +23,11 @@ public class DalekSweeper extends JFrame {
     }
 
     public DalekSweeper() {
+        fieldCustomize();
+
+    }
+
+    private void fieldCustomize(){
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(800, 400, 270, 165);
         setTitle("DalekSweeper");
@@ -73,8 +78,6 @@ public class DalekSweeper extends JFrame {
         setIconImage(getImage("icon"));
         setImages();
         setVisible(true);
-
-
     }
 
     private void initLabel() {
