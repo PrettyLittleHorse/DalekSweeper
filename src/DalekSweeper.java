@@ -106,8 +106,10 @@ public class DalekSweeper extends JFrame {
                     game.pressRightButton(coord);
                 if (e.getButton() == MouseEvent.BUTTON2)
                     game.start();
-                panel.repaint();
+
                 label.setText(getMessage());
+                panel.repaint();
+                remove(label);
 
 
             }
@@ -121,21 +123,20 @@ public class DalekSweeper extends JFrame {
 
     private String getMessage() {
         switch (game.getState()) {
+
             case PLAYED:
-                panel.repaint();
                 label.setForeground(Color.BLACK);
                 return "There are so many Daleks here.. " + DALEKS + " daleks remaining";
 
             case EXTERMINATED:
-                panel.repaint();
                 label.setForeground(Color.RED);
                 return "EXTERMINATE!! \n You were exterminated. ";
+
             case WINNER:
-                panel.repaint();
                 label.setForeground(Color.BLUE);
                 return "You escaped from all " + DALEKS + " daleks";
+
             default:
-                panel.repaint();
                 return "";
         }
     }
