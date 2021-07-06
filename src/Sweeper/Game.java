@@ -77,6 +77,7 @@ public class Game {
                 flag.setOpenedToClosedDalekBox(coord);
             else
                 flag.setNoDalekToFlagedSafeBox(coord);
+
     }
 
     private void openBoxesAround(Coord coord) {
@@ -93,6 +94,7 @@ public class Game {
     private boolean gameOver() {
         if (state == GameState.PLAYED)
             return false;
+        try { Thread.sleep(500); } catch (InterruptedException e) { e.printStackTrace(); }
         start();
         return true;
     }

@@ -54,10 +54,10 @@ public class DalekSweeper extends JFrame {
                 game = new Game(COLS, ROWS, DALEKS);
                 startPanel.removeAll();
                 remove(startPanel);
-                game.start();
-                setImages();
                 initLabel();
+                setImages();
                 initPanel();
+                game.start();
                 initFrame();
 
             } catch (NumberFormatException e1) {
@@ -74,7 +74,6 @@ public class DalekSweeper extends JFrame {
         startPanel.add(button);
         startPanel.add(standardLabel);
         add(startPanel);
-
         setIconImage(getImage("icon"));
         setImages();
         setVisible(true);
@@ -82,8 +81,16 @@ public class DalekSweeper extends JFrame {
 
     private void initLabel() {
         label = new JLabel("There are so many Daleks here... ");
+        try {
+            new Sound("startsound");
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         add(label, BorderLayout.SOUTH);
-
     }
 
     private void initPanel() {
@@ -109,17 +116,12 @@ public class DalekSweeper extends JFrame {
                     game.pressRightButton(coord);
                 label.setText(getMessage());
                 panel.repaint();
-
             }
         });
 
         panel.setPreferredSize(new Dimension(
                 Ranges.getSize().x * IMAGE_SIZE + 1,
                 Ranges.getSize().y * IMAGE_SIZE + 1));
-        JButton button = new JButton("!");
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.add(button, BorderLayout.LINE_END);
-        label.add(bottomPanel, BorderLayout.PAGE_END);
         add(panel);
     }
 
@@ -141,6 +143,11 @@ public class DalekSweeper extends JFrame {
 
             case WINNER:
                 label.setForeground(Color.BLUE);
+                try {
+                    new Sound("winsound");
+                } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+                    e.printStackTrace();
+                }
                 return "You escaped from all " + DALEKS + " daleks";
 
             default:
