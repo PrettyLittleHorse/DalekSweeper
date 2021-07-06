@@ -9,9 +9,9 @@ public class Game {
         return state;
     }
 
-    public Game(int cols, int rows, int bombs) {
+    public Game(int cols, int rows, int daleks) {
         Ranges.setSize(new Coord(cols, rows));
-        dalek = new Dalek(bombs);
+        dalek = new Dalek(daleks);
         flag = new Flag();
     }
 
@@ -53,7 +53,7 @@ public class Game {
                         openBoxesAround(coord);
                         return;
                     case DALEK:
-                        openBombs(coord);
+                        openDaleks(coord);
                         return;
                     default:
                         flag.setOpenedToBox(coord);
@@ -69,14 +69,14 @@ public class Game {
                         openBox(around);
     }
 
-    private void openBombs(Coord exterminated) {
+    private void openDaleks(Coord exterminated) {
         state = GameState.EXTERMINATED;
-        flag.setBombedToBox(exterminated);
+        flag.setShowedDaleksToBox(exterminated);
         for (Coord coord : Ranges.getAllCoords())
             if (dalek.get(coord) == Box.DALEK)
-                flag.setOpenedToClosedBombBox(coord);
+                flag.setOpenedToClosedDalekBox(coord);
             else
-                flag.setNoBombToFlagedSafeBox(coord);
+                flag.setNoDalekToFlagedSafeBox(coord);
     }
 
     private void openBoxesAround(Coord coord) {

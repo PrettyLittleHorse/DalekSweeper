@@ -6,26 +6,26 @@ class Dalek {
 
     Dalek(int totalDaleks) {
         this.totalDaleks = totalDaleks;
-        fixBombsCount();
+        fixDaleksCount();
     }
 
     void start() {
         dalekMap = new Matrix(Box.ZERO);
         for (int j = 0; j < totalDaleks; j++)
-            placeBomb();
+            placeDalek();
     }
 
     Box get(Coord coord) {
         return dalekMap.get(coord);
     }
 
-    private void fixBombsCount() {
+    private void fixDaleksCount() {
         int maxDaleks = Ranges.getSize().x * Ranges.getSize().y / 2;
         if (totalDaleks > maxDaleks)
             totalDaleks = maxDaleks;
     }
 
-    private void placeBomb() {
+    private void placeDalek() {
         while (true) {
             Coord coord = Ranges.getRandomCoord();
             if (Box.DALEK == dalekMap.get(coord))

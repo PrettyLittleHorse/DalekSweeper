@@ -41,16 +41,16 @@ public class Flag {
         return countOfClosedBoxes;
     }
 
-    public void setBombedToBox(Coord coord) {
+    public void setShowedDaleksToBox(Coord coord) {
         flagMap.set(coord, Box.EXTERMINATED);
     }
 
-    void setOpenedToClosedBombBox(Coord coord) {
+    void setOpenedToClosedDalekBox(Coord coord) {
         if (flagMap.get(coord) == Box.CLOSED)
             flagMap.set(coord, Box.OPENED);
     }
 
-    void setNoBombToFlagedSafeBox(Coord coord) {
+    void setNoDalekToFlagedSafeBox(Coord coord) {
         if (flagMap.get(coord) == Box.FLAGED)
             flagMap.set(coord, Box.NODALEK);
     }

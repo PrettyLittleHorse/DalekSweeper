@@ -1,12 +1,12 @@
+import Sweeper.*;
 import Sweeper.Box;
-import Sweeper.Coord;
-import Sweeper.Game;
-import Sweeper.Ranges;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Objects;
 
 public class DalekSweeper extends JFrame {
@@ -24,15 +24,16 @@ public class DalekSweeper extends JFrame {
 
     public DalekSweeper() {
         fieldCustomize();
-
     }
 
-    private void fieldCustomize(){
+    private void fieldCustomize() {
+        JPanel startPanel = new JPanel(new FlowLayout());
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(800, 400, 270, 165);
         setTitle("DalekSweeper");
+        setResizable(false);
 
-        JPanel startPanel = new JPanel(new FlowLayout());
         JTextField fieldWidthInput = new JTextField(3);
         JTextField fieldHeightInput = new JTextField(3);
         JTextField numberOfDaleksInput = new JTextField(3);
@@ -43,7 +44,6 @@ public class DalekSweeper extends JFrame {
         JLabel standardLabel = new JLabel("Standard 10,10,11");
         standardLabel.setForeground(Color.RED);
         JButton button = new JButton("Start");
-
 
         button.addActionListener(e -> {
 
@@ -107,13 +107,8 @@ public class DalekSweeper extends JFrame {
                     game.pressLeftButton(coord);
                 if (e.getButton() == MouseEvent.BUTTON3)
                     game.pressRightButton(coord);
-                if (e.getButton() == MouseEvent.BUTTON2)
-                    game.start();
-
                 label.setText(getMessage());
                 panel.repaint();
-                remove(label);
-
 
             }
         });
@@ -121,6 +116,10 @@ public class DalekSweeper extends JFrame {
         panel.setPreferredSize(new Dimension(
                 Ranges.getSize().x * IMAGE_SIZE + 1,
                 Ranges.getSize().y * IMAGE_SIZE + 1));
+        JButton button = new JButton("!");
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(button, BorderLayout.LINE_END);
+        label.add(bottomPanel, BorderLayout.PAGE_END);
         add(panel);
     }
 
@@ -133,6 +132,11 @@ public class DalekSweeper extends JFrame {
 
             case EXTERMINATED:
                 label.setForeground(Color.RED);
+                try {
+                    new Sound("exterminationSound");
+                } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+                    e.printStackTrace();
+                }
                 return "EXTERMINATE!! \n You were exterminated. ";
 
             case WINNER:
