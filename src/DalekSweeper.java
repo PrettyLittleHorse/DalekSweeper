@@ -1,5 +1,8 @@
-import Sweeper.*;
 import Sweeper.Box;
+import Sweeper.Coord;
+import Sweeper.Game;
+import Sweeper.Ranges;
+import Sweeper.Sound;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -27,6 +30,12 @@ public class DalekSweeper extends JFrame {
     }
 
     private void fieldCustomize() {
+        try {
+            new Sound("menusound");
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+
         JPanel startPanel = new JPanel(new FlowLayout());
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -46,7 +55,6 @@ public class DalekSweeper extends JFrame {
         JButton button = new JButton("Start");
 
         button.addActionListener(e -> {
-
             try {
                 COLS = Integer.parseInt(fieldWidthInput.getText());
                 ROWS = Integer.parseInt(fieldHeightInput.getText());
@@ -83,11 +91,7 @@ public class DalekSweeper extends JFrame {
         label = new JLabel("There are so many Daleks here... ");
         try {
             new Sound("startsound");
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
             e.printStackTrace();
         }
         add(label, BorderLayout.SOUTH);
@@ -107,6 +111,11 @@ public class DalekSweeper extends JFrame {
         panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                try {
+                    new Sound("openeggsound");
+                } catch (LineUnavailableException | UnsupportedAudioFileException | IOException lineUnavailableException) {
+                    lineUnavailableException.printStackTrace();
+                }
                 int x = e.getX() / IMAGE_SIZE;
                 int y = e.getY() / IMAGE_SIZE;
                 Coord coord = new Coord(x, y);
@@ -135,7 +144,7 @@ public class DalekSweeper extends JFrame {
             case EXTERMINATED:
                 label.setForeground(Color.RED);
                 try {
-                    new Sound("exterminationSound");
+                    new Sound("exterminate");
                 } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
                     e.printStackTrace();
                 }
@@ -166,7 +175,7 @@ public class DalekSweeper extends JFrame {
     }
 
     private void setImages() {
-        for (Box box : Box.values())
+        for (Sweeper.Box box : Box.values())
             box.image = getImage(box.name().toLowerCase());
     }
 
