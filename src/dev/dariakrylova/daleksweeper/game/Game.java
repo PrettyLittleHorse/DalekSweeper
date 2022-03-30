@@ -1,8 +1,11 @@
-package Sweeper;
+package dev.dariakrylova.daleksweeper.game;
+
+import dev.dariakrylova.daleksweeper.util.Coord;
+import dev.dariakrylova.daleksweeper.util.Ranges;
 
 public class Game {
-    private Dalek dalek;
-    private Flag flag;
+    private final Dalek dalek;
+    private final Flag flag;
     private GameState state;
 
     public GameState getState() {
@@ -45,16 +48,20 @@ public class Game {
             case OPENED:
                 setOpenedToClosedBoxesAroundNumber(coord);
                 return;
+
             case FLAGED:
                 return;
+
             case CLOSED:
                 switch (dalek.get(coord)) {
                     case ZERO:
                         openBoxesAround(coord);
                         return;
+
                     case DALEK:
                         openDaleks(coord);
                         return;
+
                     default:
                         flag.setOpenedToBox(coord);
                 }
@@ -63,8 +70,8 @@ public class Game {
 
     void setOpenedToClosedBoxesAroundNumber(Coord coord) {
         if (dalek.get(coord) != Box.DALEK)
-            if (flag.getCountOfFlagedBoxesAround(coord) == dalek.get(coord).getNumber())
-                for (Coord around : Ranges.getCoordsAround(coord))
+            if (flag.getCountOfFlaggedBoxesAround(coord) == dalek.get(coord).getNumber())
+                for (Coord around : Ranges.getCoordinatesAround(coord))
                     if (flag.get(around) == Box.CLOSED)
                         openBox(around);
     }
@@ -72,29 +79,33 @@ public class Game {
     private void openDaleks(Coord exterminated) {
         state = GameState.EXTERMINATED;
         flag.setShowedDaleksToBox(exterminated);
-        for (Coord coord : Ranges.getAllCoords())
+        for (Coord coord : Ranges.getAllCoordinates())
             if (dalek.get(coord) == Box.DALEK)
                 flag.setOpenedToClosedDalekBox(coord);
             else
-                flag.setNoDalekToFlagedSafeBox(coord);
+                flag.setNoDalekToFlaggedSafeBox(coord);
 
     }
 
     private void openBoxesAround(Coord coord) {
         flag.setOpenedToBox(coord);
-        for (Coord around : Ranges.getCoordsAround(coord))
+        for (Coord around : Ranges.getCoordinatesAround(coord))
             openBox(around);
     }
 
     public void pressRightButton(Coord coord) {
         if (gameOver()) return;
-        flag.toggleFlagedToBox(coord);
+        flag.toggleFlaggedToBox(coord);
     }
 
     private boolean gameOver() {
         if (state == GameState.PLAYED)
             return false;
-        try { Thread.sleep(500); } catch (InterruptedException e) { e.printStackTrace(); }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         start();
         return true;
     }

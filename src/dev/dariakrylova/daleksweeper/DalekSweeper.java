@@ -1,8 +1,10 @@
-import Sweeper.Box;
-import Sweeper.Coord;
-import Sweeper.Game;
-import Sweeper.Ranges;
-import Sweeper.Sound;
+package dev.dariakrylova.daleksweeper;
+
+import dev.dariakrylova.daleksweeper.game.Box;
+import dev.dariakrylova.daleksweeper.game.Game;
+import dev.dariakrylova.daleksweeper.util.Coord;
+import dev.dariakrylova.daleksweeper.util.Ranges;
+import dev.dariakrylova.daleksweeper.util.Sound;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -10,37 +12,34 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.Objects;
 
 public class DalekSweeper extends JFrame {
+
+    private static final String GAME_NAME = "DalekSweeper";
+    private static final String GAME_ICON = "icon";
+    private static final int IMAGE_SIZE = 95;
     private Game game;
     private JPanel panel;
     private JLabel label;
-    private int COLS;
-    private int DALEKS;
-    private int ROWS;
-    private final int IMAGE_SIZE = 95;
+    private int daleks;
+    private int cols;
+    private int rows;
+
 
     public static void main(String[] args) {
-        new DalekSweeper();
-    }
-
-    public DalekSweeper() {
-        fieldCustomize();
-    }
-
-    private void fieldCustomize() {
         try {
             new Sound("menusound");
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
             e.printStackTrace();
         }
 
-        JPanel startPanel = new JPanel(new FlowLayout());
+        new DalekSweeper();
+    }
 
+    public DalekSweeper() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(800, 400, 270, 165);
-        setTitle("DalekSweeper");
+        setTitle(GAME_NAME);
         setResizable(false);
 
         JTextField fieldWidthInput = new JTextField(3);
@@ -54,12 +53,13 @@ public class DalekSweeper extends JFrame {
         standardLabel.setForeground(Color.RED);
         JButton button = new JButton("Start");
 
+        JPanel startPanel = new JPanel(new FlowLayout());
         button.addActionListener(e -> {
             try {
-                COLS = Integer.parseInt(fieldWidthInput.getText());
-                ROWS = Integer.parseInt(fieldHeightInput.getText());
-                DALEKS = Integer.parseInt(numberOfDaleksInput.getText());
-                game = new Game(COLS, ROWS, DALEKS);
+                cols = Integer.parseInt(fieldWidthInput.getText());
+                rows = Integer.parseInt(fieldHeightInput.getText());
+                daleks = Integer.parseInt(numberOfDaleksInput.getText());
+                game = new Game(cols, rows, daleks);
                 startPanel.removeAll();
                 remove(startPanel);
                 initLabel();
@@ -82,7 +82,7 @@ public class DalekSweeper extends JFrame {
         startPanel.add(button);
         startPanel.add(standardLabel);
         add(startPanel);
-        setIconImage(getImage("icon"));
+        setIconImage(getImage(GAME_ICON));
         setImages();
         setVisible(true);
     }
@@ -102,7 +102,7 @@ public class DalekSweeper extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponents(g);
-                for (Coord coord : Ranges.getAllCoords()) {
+                for (Coord coord : Ranges.getAllCoordinates()) {
                     g.drawImage((Image) game.getBox(coord).image, coord.x * IMAGE_SIZE, coord.y * IMAGE_SIZE, this);
                 }
             }
@@ -139,7 +139,7 @@ public class DalekSweeper extends JFrame {
 
             case PLAYED:
                 label.setForeground(Color.BLACK);
-                return "There are so many Daleks here.. " + DALEKS + " daleks remaining";
+                return "There are so many Daleks here.. " + daleks + " daleks remaining";
 
             case EXTERMINATED:
                 label.setForeground(Color.RED);
@@ -157,7 +157,7 @@ public class DalekSweeper extends JFrame {
                 } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
                     e.printStackTrace();
                 }
-                return "You escaped from all " + DALEKS + " daleks";
+                return "You escaped from all " + daleks + " daleks";
 
             default:
                 return "";
@@ -166,22 +166,22 @@ public class DalekSweeper extends JFrame {
 
     private void initFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("DalekSweeper");
+        setTitle(GAME_NAME);
         setResizable(false);
         setVisible(true);
         pack();
         setLocationRelativeTo(null);
-        setIconImage(getImage("icon"));
+        setIconImage(getImage(GAME_ICON));
     }
 
     private void setImages() {
-        for (Sweeper.Box box : Box.values())
+        for (Box box : Box.values())
             box.image = getImage(box.name().toLowerCase());
     }
 
     private Image getImage(String name) {
-        String filename = "img/" + name + ".png";
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource(filename)));
+        String filename = "/img/" + name + ".png";
+        ImageIcon icon = new ImageIcon(getClass().getResource(filename));
         return icon.getImage();
     }
 }

@@ -1,6 +1,7 @@
-package Sweeper;
+package dev.dariakrylova.daleksweeper.game;
 
 public enum Box {
+
     ZERO,
     NUM1,
     NUM2,
@@ -26,5 +27,4 @@ public enum Box {
     int getNumber() {
         return this.ordinal();
     }
-
 }

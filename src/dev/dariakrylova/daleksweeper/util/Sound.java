@@ -1,4 +1,4 @@
-package Sweeper;
+package dev.dariakrylova.daleksweeper.util;
 
 import javax.sound.sampled.*;
 import java.io.BufferedInputStream;

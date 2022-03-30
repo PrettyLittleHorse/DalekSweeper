@@ -1,4 +1,7 @@
-package Sweeper;
+package dev.dariakrylova.daleksweeper.game;
+
+import dev.dariakrylova.daleksweeper.util.Coord;
+import dev.dariakrylova.daleksweeper.util.Ranges;
 
 class Dalek {
     private Matrix dalekMap;
@@ -27,7 +30,7 @@ class Dalek {
 
     private void placeDalek() {
         while (true) {
-            Coord coord = Ranges.getRandomCoord();
+            Coord coord = Ranges.getRandomCoordinates();
             if (Box.DALEK == dalekMap.get(coord))
                 continue;
             dalekMap.set(coord, Box.DALEK);
@@ -37,7 +40,7 @@ class Dalek {
     }
 
     private void incNumbersRoundDalek(Coord coord) {
-        for (Coord around : Ranges.getCoordsAround(coord))
+        for (Coord around : Ranges.getCoordinatesAround(coord))
             if (Box.DALEK != dalekMap.get(around))
                 dalekMap.set(around, dalekMap.get(around).getNextNumberBox());
     }

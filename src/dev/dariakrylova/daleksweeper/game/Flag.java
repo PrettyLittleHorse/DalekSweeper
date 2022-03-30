@@ -1,4 +1,7 @@
-package Sweeper;
+package dev.dariakrylova.daleksweeper.game;
+
+import dev.dariakrylova.daleksweeper.util.Coord;
+import dev.dariakrylova.daleksweeper.util.Ranges;
 
 public class Flag {
     private Matrix flagMap;
@@ -18,7 +21,7 @@ public class Flag {
         countOfClosedBoxes--;
     }
 
-    void toggleFlagedToBox(Coord coord) {
+    void toggleFlaggedToBox(Coord coord) {
         switch (flagMap.get(coord)) {
             case FLAGED:
                 setClosedToBox(coord);
@@ -50,15 +53,15 @@ public class Flag {
             flagMap.set(coord, Box.OPENED);
     }
 
-    void setNoDalekToFlagedSafeBox(Coord coord) {
+    void setNoDalekToFlaggedSafeBox(Coord coord) {
         if (flagMap.get(coord) == Box.FLAGED)
             flagMap.set(coord, Box.NODALEK);
     }
 
 
-    int getCountOfFlagedBoxesAround(Coord coord) {
+    int getCountOfFlaggedBoxesAround(Coord coord) {
         int count = 0;
-        for (Coord around : Ranges.getCoordsAround(coord))
+        for (Coord around : Ranges.getCoordinatesAround(coord))
             if (flagMap.get(around) == Box.FLAGED)
                 count++;
         return count;

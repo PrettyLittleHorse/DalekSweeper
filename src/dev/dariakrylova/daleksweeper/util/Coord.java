@@ -1,4 +1,4 @@
-package Sweeper;
+package dev.dariakrylova.daleksweeper.util;
 
 public class Coord {
     public int x;
